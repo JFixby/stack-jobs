@@ -1,0 +1,71 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.github.jitpack'
+
+sourceCompatibility = 1.8 // java 8
+targetCompatibility = 1.8
+
+repositories {
+  mavenCentral()
+}
+
+sourceSets {
+        main {
+              java {
+                       srcDirs = ['src/']
+                   }
+        resources {
+            
+                   }
+        }              
+}
+
+ext {
+        scarabeiAPILevel = "F.2"
+        scarabeiRedVersion = "F.2.0"
+        scarabeiGsonVersion = "F.2.0"
+        scarabeiAwsAPILevel = "F.2.0"
+        scarabeiAwsDesktopVersion = "F.2.2"
+        
+                           
+}
+
+dependencies {
+   compile "com.github.Scarabei.Scarabei:scarabei-red-android:$scarabeiVersion"
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+// To specify a license in the pom:
+install {
+  repositories.mavenInstaller {
+    pom.project {
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+        }
+      }
+    }
+  }
+}
+
+wrapper {
+    gradleVersion = "5.1.1"
+    distributionType = Wrapper.DistributionType.ALL
+}
